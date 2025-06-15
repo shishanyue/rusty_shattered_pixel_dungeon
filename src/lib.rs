@@ -1,14 +1,17 @@
-pub mod assets;
-pub mod utils;
-pub mod levels;
 pub mod actors;
-pub mod dungeon;
-pub mod scenes;
+pub mod assets;
 pub mod bevy_ext;
+pub mod dungeon;
+pub mod levels;
+pub mod scenes;
 pub mod ui;
+pub mod utils;
 use bevy::{app::PluginGroupBuilder, prelude::*};
 
-use crate::{assets::AssetsPlugin, bevy_ext::system::SystemPlugin, scenes::ScenePlugin};
+use crate::{
+    assets::AssetsPlugin, bevy_ext::system::SystemPlugin, scenes::ScenePlugin, ui::UiPlugin,
+    utils::dungeon_seed::DugeonSeed,
+};
 
 pub struct RustyPixelDungeonPlugins;
 
@@ -18,7 +21,17 @@ impl PluginGroup for RustyPixelDungeonPlugins {
         group = group
             .add(ScenePlugin)
             .add(SystemPlugin)
-            .add(AssetsPlugin);
+            .add(AssetsPlugin)
+            .add(UiPlugin);
         group
+    }
+}
+
+pub struct RustyPixelDungeonPlugin;
+
+impl Plugin for RustyPixelDungeonPlugin {
+    fn build(&self, app: &mut App) {
+        app.init_resource::<DugeonSeed>()
+            .add_plugins(RustyPixelDungeonPlugins);
     }
 }

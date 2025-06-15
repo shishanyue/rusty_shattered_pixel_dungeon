@@ -1,13 +1,12 @@
 use bevy::prelude::*;
 
-
 #[derive(States, Clone, Copy, Default, Eq, PartialEq, Hash, Debug)]
 pub enum SystemState {
     #[default]
-    Loading,
-    Loaded,
+    AssetsLoading,
+    AssetsLoaded,
+    AssetsProcessed,
 }
-
 
 pub struct SystemPlugin;
 

@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::bevy_ext::{app::AppExt, condition::run_once_in_state, system::SystemState};
+use crate::bevy_ext::{app::AppExt, system::SystemState};
 
 use super::{Scene, SceneState};
 
@@ -18,7 +18,7 @@ impl Scene for WelcomeScene {
                 (|mut scene_state: ResMut<NextState<SceneState>>| {
                     scene_state.set(SceneState::TitleScene);
                 })
-                .run_if(run_once_in_state(SystemState::Loaded)),
+                .run_if(in_state(SystemState::AssetsProcessed).and(run_once)),
             );
     }
 }

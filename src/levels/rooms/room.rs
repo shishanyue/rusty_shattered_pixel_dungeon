@@ -42,5 +42,5 @@ pub trait Room {
         }
     }
     fn resize(&mut self, width: i32, height: i32);
-    fn paint<T: Level>(&self, level:&mut T);
+    fn paint<T: Level>(&self, level: &mut T);
 }

@@ -1,9 +1,12 @@
-pub mod welcome_scene;
 pub mod title_scene;
+pub mod welcome_scene;
 
 use bevy::prelude::*;
 
-use crate::{bevy_ext::app::AppExt, scenes::{title_scene::TitleScene, welcome_scene::WelcomeScene}};
+use crate::{
+    bevy_ext::app::AppExt,
+    scenes::{title_scene::TitleScene, welcome_scene::WelcomeScene},
+};
 pub trait Scene: Default {
     fn build(&self, app: &mut App);
 }

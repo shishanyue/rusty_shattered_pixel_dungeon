@@ -88,13 +88,13 @@ impl Default for LimitedDrops {
     }
 }
 
-#[derive(Component)]
-#[derive(Default)]
+#[derive(Component, Default)]
 pub struct Dungeon {
     pub limited_drops: LimitedDrops,
 }
 
 impl Dungeon {
-    pub fn new() {todo!()}
+    pub fn new() {
+        todo!()
+    }
 }
-

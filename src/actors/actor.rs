@@ -1,4 +1,3 @@
-
 // 公共常量
 pub const TICK: f32 = 1.0;
 pub const VFX_PRIO: i32 = 100;

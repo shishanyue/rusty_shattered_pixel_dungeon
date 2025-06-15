@@ -1,4 +1,3 @@
-
 use bitflags::bitflags;
 
 bitflags! {
@@ -67,7 +66,12 @@ impl Terrain {
             Terrain::EmptyWell => TerrainFlags::PASSABLE,
             Terrain::Water => TerrainFlags::PASSABLE | TerrainFlags::LIQUID,
             Terrain::Wall => TerrainFlags::LOS_BLOCKING | TerrainFlags::SOLID,
-            Terrain::Door => TerrainFlags::PASSABLE | TerrainFlags::LOS_BLOCKING | TerrainFlags::FLAMABLE | TerrainFlags::SOLID,
+            Terrain::Door => {
+                TerrainFlags::PASSABLE
+                    | TerrainFlags::LOS_BLOCKING
+                    | TerrainFlags::FLAMABLE
+                    | TerrainFlags::SOLID
+            }
             Terrain::OpenDoor => TerrainFlags::PASSABLE | TerrainFlags::FLAMABLE,
             Terrain::Entrance | Terrain::EntranceSp => TerrainFlags::PASSABLE,
             Terrain::Exit => TerrainFlags::PASSABLE,
@@ -76,10 +80,16 @@ impl Terrain {
             Terrain::CrystalDoor => TerrainFlags::SOLID,
             Terrain::Pedestal => TerrainFlags::PASSABLE,
             Terrain::WallDeco => TerrainFlags::LOS_BLOCKING | TerrainFlags::SOLID,
-            Terrain::Barricade => TerrainFlags::FLAMABLE | TerrainFlags::SOLID | TerrainFlags::LOS_BLOCKING,
+            Terrain::Barricade => {
+                TerrainFlags::FLAMABLE | TerrainFlags::SOLID | TerrainFlags::LOS_BLOCKING
+            }
             Terrain::EmptySp => TerrainFlags::PASSABLE,
-            Terrain::HighGrass | Terrain::FurrowedGrass => TerrainFlags::PASSABLE | TerrainFlags::LOS_BLOCKING | TerrainFlags::FLAMABLE,
-            Terrain::SecretDoor => TerrainFlags::LOS_BLOCKING | TerrainFlags::SOLID | TerrainFlags::SECRET,
+            Terrain::HighGrass | Terrain::FurrowedGrass => {
+                TerrainFlags::PASSABLE | TerrainFlags::LOS_BLOCKING | TerrainFlags::FLAMABLE
+            }
+            Terrain::SecretDoor => {
+                TerrainFlags::LOS_BLOCKING | TerrainFlags::SOLID | TerrainFlags::SECRET
+            }
             Terrain::SecretTrap => TerrainFlags::PASSABLE | TerrainFlags::SECRET,
             Terrain::Trap => TerrainFlags::AVOID,
             Terrain::InactiveTrap => TerrainFlags::PASSABLE,
@@ -87,11 +97,17 @@ impl Terrain {
             Terrain::LockedExit => TerrainFlags::SOLID,
             Terrain::UnlockedExit => TerrainFlags::PASSABLE,
             Terrain::Well => TerrainFlags::AVOID,
-            Terrain::Bookshelf => TerrainFlags::FLAMABLE | TerrainFlags::SOLID | TerrainFlags::LOS_BLOCKING,
+            Terrain::Bookshelf => {
+                TerrainFlags::FLAMABLE | TerrainFlags::SOLID | TerrainFlags::LOS_BLOCKING
+            }
             Terrain::Alchemy => TerrainFlags::SOLID,
-            Terrain::CustomDeco | Terrain::Statue | Terrain::StatueSp | 
-            Terrain::RegionDeco | Terrain::RegionDecoAlt | 
-            Terrain::MineCrystal | Terrain::MineBoulder => TerrainFlags::SOLID,
+            Terrain::CustomDeco
+            | Terrain::Statue
+            | Terrain::StatueSp
+            | Terrain::RegionDeco
+            | Terrain::RegionDecoAlt
+            | Terrain::MineCrystal
+            | Terrain::MineBoulder => TerrainFlags::SOLID,
         }
     }
 

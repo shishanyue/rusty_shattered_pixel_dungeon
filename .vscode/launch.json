@@ -1,0 +1,83 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'rusty_shattered_pixel_dungeon'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=rusty-shattered-pixel-dungeon"
+                ],
+                "filter": {
+                    "name": "rusty_shattered_pixel_dungeon",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'rusty-shattered-pixel-dungeon'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=rusty-shattered-pixel-dungeon",
+                    "--package=rusty-shattered-pixel-dungeon"
+                ],
+                "filter": {
+                    "name": "rusty-shattered-pixel-dungeon",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'rusty-shattered-pixel-dungeon'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=rusty-shattered-pixel-dungeon",
+                    "--package=rusty-shattered-pixel-dungeon"
+                ],
+                "filter": {
+                    "name": "rusty-shattered-pixel-dungeon",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug integration test 'room'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--test=room",
+                    "--package=rusty-shattered-pixel-dungeon"
+                ],
+                "filter": {
+                    "name": "room",
+                    "kind": "test"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

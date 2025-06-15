@@ -13,10 +13,10 @@ pub struct EmptyRoom {
 }
 
 impl Room for EmptyRoom {
-    fn paint<T: Level>(&self, level:&mut T) {
+    fn paint<T: Level>(&self, level: &mut T) {
         BaiscPainter::fill(level, self.rect, Terrain::Wall);
     }
-    
+
     fn resize(&mut self, width: i32, height: i32) {
         self.rect.w = width;
         self.rect.h = height

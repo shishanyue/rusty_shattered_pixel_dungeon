@@ -1,42 +1,37 @@
-use bevy::{platform::collections::HashMap, prelude::*};
+use bevy::prelude::*;
 
 use crate::bevy_ext::system::SystemState;
-
-// 定义资产路径和句柄的类型别名
-type AssetPath = &'static str;
-type AssetHandle<T> = Handle<T>;
-
 
 // 宏用于快速生成资源结构体和默认实现
 macro_rules! define_asset_group {
     ($name:ident<$asset_type:ident> { $($field:ident: $path:literal),* $(,)? }) => {
         #[derive(Debug)]
         pub struct $name {
-            $(pub $field: (AssetPath, Handle<$asset_type>),)*
+            $(pub $field: Handle<$asset_type>,)*
         }
 
         impl Default for $name {
             fn default() -> Self {
                 Self {
-                    $($field: ($path, Handle::<$asset_type>::default()),)*
+                    $($field: Handle::<$asset_type>::default(),)*
                 }
             }
         }
 
         impl $name {
             pub fn load(&mut self, asset_server: &Res<AssetServer>) {
-                $(self.$field.1 = asset_server.load(self.$field.0);)*
+                $(self.$field = asset_server.load($path);)*
+            }
+            pub fn all_untyped(&self) -> Vec<UntypedHandle>{
+                vec![$(self.$field.clone().untyped()),*]
             }
         }
     };
 }
 
-
-
 // 使用宏定义各个资源组
 define_asset_group!(Effects<Image> {
     effects: "effects/effects.png",
-    fireball: "effects/fireball.png",
     specks: "effects/specks.png",
     spell_icons: "effects/spell_icons.png",
     text_icons: "effects/text_icons.png",
@@ -230,7 +225,30 @@ define_asset_group!(Sprites<Image>{
 });
 
 define_asset_group!(Fonts<Font> {
-    pixelfont: "fonts/pixel_font.png"
+    pixelfont: "fonts/fusion_pixel.ttf"
+});
+
+define_asset_group!(Interfaces<Image>{
+    arcs_bg: "interfaces/arcs1.png",
+    arcs_fg: "interfaces/arcs2.png",
+    banners: "interfaces/banners.png",
+    badges: "interfaces/badges.png",
+    locked: "interfaces/locked_badge.png",
+    chrome: "interfaces/chrome.png",
+    icons: "interfaces/icons.png",
+    status: "interfaces/status_pane.png",
+    menu : "interfaces/menu_pane.png",
+    menu_btn: "interfaces/menu_button.png",
+    toolbar: "interfaces/toolbar.png",
+    shadow: "interfaces/shadow.png",
+    boss_hp: "interfaces/boss_hp.png",
+    surface: "interfaces/surface.png",
+    buffs_small: "interfaces/buffs.png",
+    buffs_large: "interfaces/large_buffs.png",
+    talent_icons: "interfaces/talent_icons.png",
+    talent_button: "interfaces/talent_button.png",
+    hero_icons: "interfaces/hero_icons.png",
+    radial_menu: "interfaces/radial_menu.png",
 });
 
 #[derive(Debug, Default, Resource)]
@@ -241,27 +259,60 @@ pub struct GameAssets {
     pub sounds: Sounds,
     pub splashes: Splashes,
     pub sprites: Sprites,
-}
-
-pub struct AssetsHandles<T: Asset> {
-    handles: HashMap<String, Handle<T>>,
+    pub interfaces: Interfaces,
+    pub all_untyped_handles: Vec<UntypedHandle>,
 }
 
 pub struct AssetsPlugin;
 
 impl Plugin for AssetsPlugin {
-    fn build(&self, app: &mut App,) {
-        app.insert_resource(GameAssets::default()).add_systems(
-            PreStartup,
-            |mut game_assets: ResMut<GameAssets>, asset_server: Res<AssetServer>,mut system_state: ResMut<NextState<SystemState>>| {
-                game_assets.effects.load(&asset_server);
-                game_assets.environment.load(&asset_server);
-                game_assets.fonts.load(&asset_server);
-                game_assets.sounds.load(&asset_server);
-                game_assets.splashes.load(&asset_server);
-                game_assets.sprites.load(&asset_server);
-                system_state.set(SystemState::Loaded);
-            },
-        );
+    fn build(&self, app: &mut App) {
+        app.insert_resource(GameAssets::default())
+            .add_systems(
+                PreStartup,
+                |mut game_assets: ResMut<GameAssets>, asset_server: Res<AssetServer>| {
+                    game_assets.effects.load(&asset_server);
+                    game_assets.environment.load(&asset_server);
+                    game_assets.fonts.load(&asset_server);
+                    game_assets.sounds.load(&asset_server);
+                    game_assets.splashes.load(&asset_server);
+                    game_assets.sprites.load(&asset_server);
+                    game_assets.interfaces.load(&asset_server);
+
+                    // 收集所有资源句柄
+                    game_assets.all_untyped_handles = game_assets
+                        .effects
+                        .all_untyped()
+                        .iter()
+                        .chain(game_assets.environment.all_untyped().iter())
+                        .chain(game_assets.fonts.all_untyped().iter())
+                        .chain(game_assets.sounds.all_untyped().iter())
+                        .chain(game_assets.sprites.all_untyped().iter())
+                        .chain(game_assets.interfaces.all_untyped().iter())
+                        .chain(game_assets.splashes.all_untyped().iter())
+                        .cloned()
+                        .collect();
+                },
+            )
+            .add_systems(
+                PreUpdate,
+                check_assets_ready.run_if(in_state(SystemState::AssetsLoading)),
+            );
+    }
+}
+
+fn check_assets_ready(
+    game_assets: Res<GameAssets>,
+    asset_server: Res<AssetServer>,
+    mut system_state: ResMut<NextState<SystemState>>,
+) {
+    // 检查所有资源是否都已加载完成
+    let all_loaded = game_assets
+        .all_untyped_handles
+        .iter()
+        .all(|handle| asset_server.is_loaded_with_dependencies(handle.id()));
+    // 只有当所有资源都加载完成时才更新状态
+    if all_loaded {
+        system_state.set(SystemState::AssetsLoaded);
     }
 }
