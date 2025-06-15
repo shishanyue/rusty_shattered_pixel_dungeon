@@ -20,26 +20,17 @@ pub(super) fn process(
     ui_texture_atlas_layout_handles: &mut ResMut<UiTextureAtlasLayoutHandles>,
     images: &ResMut<Assets<Image>>,
 ) {
-    if let Some(chrome) = images.get(game_assets.interfaces.chrome.id()) {
-        let mut texture_atlas =
-            TextureAtlasLayout::new_empty( chrome.size());
+    if let Some(banners) = images.get(game_assets.interfaces.banners.id()) {
+        let mut texture_atlas = TextureAtlasLayout::new_empty(banners.size());
 
-        texture_atlas.add_texture(URect::from_size(0, 0, 20, 20));
-        texture_atlas.add_texture(URect::from_size(86, 0, 22, 22));
-        texture_atlas.add_texture(URect::from_size(20, 0, 9, 9));
-        texture_atlas.add_texture(URect::from_size(20, 9, 9, 9));
-        texture_atlas.add_texture(URect::from_size(29, 9, 9, 9));
-        texture_atlas.add_texture(URect::from_size(29, 0, 9, 9));
-        texture_atlas.add_texture(URect::from_size(38, 0, 6, 6));
-        texture_atlas.add_texture(URect::from_size(38, 6, 6, 6));
-        texture_atlas.add_texture(URect::from_size(22, 18, 16, 14));
-        texture_atlas.add_texture(URect::from_size(0, 32, 32, 32));
-        texture_atlas.add_texture(URect::from_size(32, 32, 32, 32));
-        texture_atlas.add_texture(URect::from_size(64, 0, 20, 20));
-        texture_atlas.add_texture(URect::from_size(65, 22, 8, 13));
-        texture_atlas.add_texture(URect::from_size(75, 22, 8, 13));
-        texture_atlas.add_texture(URect::from_size(45, 0, 1, 1));
+        texture_atlas.add_texture(URect::from_size(0, 0, 139, 100)); // TitlePort
+        texture_atlas.add_texture(URect::from_size(139, 0, 139, 100)); // TitleGlowPort
+        texture_atlas.add_texture(URect::from_size(0, 100, 240, 57)); // TitleLand
+        texture_atlas.add_texture(URect::from_size(240, 100, 240, 57)); // TitleGlowLand
+        texture_atlas.add_texture(URect::from_size(0, 157, 128, 35)); // BossSlain
+        texture_atlas.add_texture(URect::from_size(0, 192, 128, 35)); // GameOver
+        texture_atlas.add_texture(URect::from_size(0, 227, 128, 21)); // SelectYourHero
 
-        ui_texture_atlas_layout_handles.chrome = texture_atlases.add(texture_atlas);
+        ui_texture_atlas_layout_handles.banner_sprites = texture_atlases.add(texture_atlas);
     }
 }

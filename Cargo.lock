@@ -4372,6 +4372,7 @@ dependencies = [
  "bevy",
  "bevy-inspector-egui",
  "bitflags 2.9.1",
+ "indexmap",
  "radix_fmt",
  "rand 0.9.1",
  "serde",

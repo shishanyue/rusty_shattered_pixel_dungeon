@@ -19,7 +19,7 @@ fn main() {
     .add_plugins(EguiPlugin {
         enable_multipass_for_primary_context: true,
     })
-    .add_plugins(WorldInspectorPlugin::new())
+    .add_plugins(WorldInspectorPlugin::new()) 
     .add_systems(Startup, setup)
     .run();
 }

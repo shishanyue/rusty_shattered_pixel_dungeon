@@ -21,6 +21,7 @@ radix_fmt = "1.0.0"
 bitflags = "2.9.1"
 strum = "0.27.1"
 strum_macros = "0.27.1"
+indexmap = "2.9.0"
 
 [dependencies.bevy]
 version = "0.16.1"

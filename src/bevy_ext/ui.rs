@@ -17,6 +17,7 @@ where
     T: Component,
 {
     (
+        Button,
         button_style,
         ImageNode::from_atlas_image(button_image, button_atlas)
             .with_mode(NodeImageMode::Sliced(slicer)),

@@ -21,6 +21,30 @@ impl Room for EmptyRoom {
         self.rect.w = width;
         self.rect.h = height
     }
+    
+    fn width(&self) -> i32 {
+        todo!()
+    }
+    
+    fn height(&self) -> i32 {
+        todo!()
+    }
+    
+    fn min_width(&self) -> i32 {
+        todo!()
+    }
+    
+    fn max_width(&self) -> i32 {
+        todo!()
+    }
+    
+    fn min_height(&self) -> i32 {
+        todo!()
+    }
+    
+    fn max_height(&self) -> i32 {
+        todo!()
+    }
 }
 
 impl StandardRoom for EmptyRoom {}

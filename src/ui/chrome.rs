@@ -36,17 +36,26 @@ pub(super) fn process(
     images: &ResMut<Assets<Image>>,
     chrome_texture_slicer: &mut ResMut<ChromeTextureSlicer>,
 ) {
-    if let Some(banners) = images.get(game_assets.interfaces.banners.id()) {
-        let mut texture_atlas = TextureAtlasLayout::new_empty(banners.size());
+    if let Some(chrome) = images.get(game_assets.interfaces.chrome.id()) {
+        let mut texture_atlas = TextureAtlasLayout::new_empty(chrome.size());
 
-        texture_atlas.add_texture(URect::from_size(0, 0, 139, 100));
-        texture_atlas.add_texture(URect::from_size(139, 0, 278, 100));
-        texture_atlas.add_texture(URect::from_size(0, 100, 240, 157));
-        texture_atlas.add_texture(URect::from_size(240, 100, 480, 157));
-        texture_atlas.add_texture(URect::from_size(0, 157, 128, 192));
-        texture_atlas.add_texture(URect::from_size(0, 192, 128, 227));
-        texture_atlas.add_texture(URect::from_size(0, 227, 128, 248));
-
+        texture_atlas.add_texture(URect::from_size(20, 0, 9, 9)); // Toast
+        texture_atlas.add_texture(URect::from_size(20, 9, 9, 9)); // ToastTr
+        texture_atlas.add_texture(URect::from_size(29, 9, 9, 9)); // ToastTrHeavy
+        texture_atlas.add_texture(URect::from_size(29, 0, 9, 9)); // ToastWhite
+        texture_atlas.add_texture(URect::from_size(0, 0, 20, 20)); // Window
+        texture_atlas.add_texture(URect::from_size(86, 0, 22, 22)); // WindowSilver
+        texture_atlas.add_texture(URect::from_size(38, 0, 6, 6)); // RedButton
+        texture_atlas.add_texture(URect::from_size(38, 6, 6, 6)); // GreyButton
+        texture_atlas.add_texture(URect::from_size(20, 9, 9, 9)); // GreyButtonTr (与 ToastTr 相同)
+        texture_atlas.add_texture(URect::from_size(22, 18, 16, 14)); // Tag
+        texture_atlas.add_texture(URect::from_size(0, 32, 32, 32)); // Gem
+        texture_atlas.add_texture(URect::from_size(32, 32, 32, 32)); // Scroll
+        texture_atlas.add_texture(URect::from_size(64, 0, 20, 20)); // TabSet
+        texture_atlas.add_texture(URect::from_size(65, 22, 8, 13)); // TabSelected
+        texture_atlas.add_texture(URect::from_size(75, 22, 8, 13)); // TabUnselected
+        texture_atlas.add_texture(URect::from_size(45, 0, 1, 1)); // Blank
+        
         chrome_texture_slicer.grey_button_tr_slicer = TextureSlicer {
             border: BorderRect::all(4.0),
             center_scale_mode: SliceScaleMode::Stretch,
@@ -59,6 +68,6 @@ pub(super) fn process(
             sides_scale_mode: SliceScaleMode::Stretch,
             max_corner_scale: 2.0,
         };
-        ui_texture_atlas_layout_handles.banner_sprites = texture_atlases.add(texture_atlas);
+        ui_texture_atlas_layout_handles.chrome = texture_atlases.add(texture_atlas);
     }
 }

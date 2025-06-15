@@ -3,3 +3,4 @@ pub mod level;
 pub mod painters;
 pub mod rooms;
 pub mod terrain;
+pub mod builders;

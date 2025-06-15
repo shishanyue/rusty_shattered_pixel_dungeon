@@ -128,7 +128,7 @@ fn setup(
                     game_assets.interfaces.banners.clone(),
                     TextureAtlas {
                         layout: banners_layout.clone(),
-                        index: BannerSpriteKind::TitlePort as usize
+                        index: BannerSpriteKind::TitleLand as usize
                     }
                 ),
                 PixelDungeon,
@@ -141,7 +141,7 @@ fn setup(
                         game_assets.interfaces.banners.clone(),
                         TextureAtlas {
                             layout: banners_layout.clone(),
-                            index: BannerSpriteKind::TitleLand as usize
+                            index: BannerSpriteKind::TitleGlowLand as usize
                         }
                     ),
                     PixelDungeonSigns,
@@ -348,6 +348,7 @@ fn check_interaction(
     for (interaction, label) in interaction_query.iter() {
         match label {
             ButtonLabel::EnterDungeon => {
+                println!("press");
                 if *interaction == Interaction::Pressed {
                     scene_state.set(SceneState::StartScene);
                 }
